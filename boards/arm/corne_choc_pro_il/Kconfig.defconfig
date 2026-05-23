@@ -4,7 +4,7 @@
 if BOARD_CORNE_CHOC_PRO_IL_LEFT
 
 config ZMK_KEYBOARD_NAME
-	default "Corne Choc Pro IL"
+	default "Corne Pro IL"
 
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
