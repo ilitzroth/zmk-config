@@ -153,7 +153,7 @@
             bindings = <
 &trans &kp N1        &kp N2          &kp N3          &kp N4           &kp N5         &trans &trans &kp N6         &kp N7           &kp N8          &kp N9          &kp N0         &trans
 &trans &kp F1        &hml LGUI F2    &hml LALT F3    &hml LCTRL F4    &kp F5         &trans &trans &kp F6         &hmr LCTRL F7    &hmr LALT F8    &hmr LGUI F9    &kp F10        &trans
-&trans &kp LCAG(N1)  &kp LCAG(N2)    &kp LCAG(N3)    &kp LCAG(N4)     &kp LCAG(N5)                  &kp LCAG(N6)   &kp LCAG(N7)     &kp LCAG(N8)    &kp LCAG(N9)    &kp LCAG(N0)   &trans
+&trans &kp LC(LA(LG(N1)))  &kp LC(LA(LG(N2)))    &kp LC(LA(LG(N3)))    &kp LC(LA(LG(N4)))     &kp LC(LA(LG(N5)))                  &kp LC(LA(LG(N6)))   &kp LC(LA(LG(N7)))     &kp LC(LA(LG(N8)))    &kp LC(LA(LG(N9)))    &kp LC(LA(LG(N0)))   &trans
                                                      &none            &kp LSHFT      &none          &trans         &kp LSHFT        &none
             >;
         };
