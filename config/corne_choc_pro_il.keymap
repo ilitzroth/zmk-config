@@ -148,11 +148,11 @@
             // X+C+V combo fires &sl LDR, then the next key picks a binding.
             //   Q -> select BT profile 1, W -> select BT profile 2
             //   O -> "H@banera01\n", P -> "h@banera1\n"
-            //   B -> enter bootloader
+            //   B -> bootloader (left half), N -> bootloader (right half)
             bindings = <
 &trans &bt BT_SEL 0 &bt BT_SEL 1 &none &none &none        &trans &trans &none &none &none &m_banera01 &m_banera1 &trans
 &trans &none        &none        &none &none &none        &trans &trans &none &none &none &none       &none      &trans
-&trans &none        &none        &none &none &bootloader                &none &none &none &none       &none      &trans
+&trans &none        &none        &none &none &bootloader                &bootloader &none &none &none &none      &trans
                                        &none &none &none                &none &none &none
             >;
         };
