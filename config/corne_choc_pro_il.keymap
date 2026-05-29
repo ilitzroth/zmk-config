@@ -25,6 +25,8 @@
 #define NAV 2
 #define LDR 3
 
+#define LCAG(k) LC(LA(LG(k)))
+
 / {
     chosen {
         zmk,physical-layout = &default_layout;
@@ -82,33 +84,6 @@
                 , <&macro_tap &kp AT &kp B &kp A &kp N &kp E &kp R &kp A &kp N0 &kp N1 &kp ENTER>;
         };
 
-        // Leader -> B: types "install-new-firmware.bash\n", waits, jumps to bootloader.
-        m_install_fw: m_install_fw {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <10>;
-            tap-ms = <10>;
-            bindings
-                = <&macro_tap &kp I &kp N &kp S &kp T &kp A &kp L &kp L &kp MINUS
-                              &kp N &kp E &kp W &kp MINUS
-                              &kp F &kp I &kp R &kp M &kp W &kp A &kp R &kp E &kp DOT
-                              &kp B &kp A &kp S &kp H &kp ENTER>
-                , <&macro_wait_time 200>
-                , <&bootloader>;
-        };
-
-        // Leader -> M: types "make keebart/3w6_rgb:il\n"
-        m_make_il: m_make_il {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <10>;
-            tap-ms = <10>;
-            bindings = <&macro_tap &kp M &kp A &kp K &kp E &kp SPACE
-                                   &kp K &kp E &kp E &kp B &kp A &kp R &kp T &kp FSLH
-                                   &kp N3 &kp W &kp N6 &kp UNDER
-                                   &kp R &kp G &kp B &kp COLON
-                                   &kp I &kp L &kp ENTER>;
-        };
     };
 
     combos {
@@ -153,7 +128,7 @@
             bindings = <
 &trans &kp N1        &kp N2          &kp N3          &kp N4           &kp N5         &trans &trans &kp N6         &kp N7           &kp N8          &kp N9          &kp N0         &trans
 &trans &kp F1        &hml LGUI F2    &hml LALT F3    &hml LCTRL F4    &kp F5         &trans &trans &kp F6         &hmr LCTRL F7    &hmr LALT F8    &hmr LGUI F9    &kp F10        &trans
-&trans &kp LC(LA(LG(N1)))  &kp LC(LA(LG(N2)))    &kp LC(LA(LG(N3)))    &kp LC(LA(LG(N4)))     &kp LC(LA(LG(N5)))                  &kp LC(LA(LG(N6)))   &kp LC(LA(LG(N7)))     &kp LC(LA(LG(N8)))    &kp LC(LA(LG(N9)))    &kp LC(LA(LG(N0)))   &trans
+&trans &kp LCAG(N1)  &kp LCAG(N2)    &kp LCAG(N3)    &kp LCAG(N4)     &kp LCAG(N5)                  &kp LCAG(N6)   &kp LCAG(N7)     &kp LCAG(N8)    &kp LCAG(N9)    &kp LCAG(N0)   &trans
                                                      &none            &kp LSHFT      &none          &trans         &kp LSHFT        &none
             >;
         };
@@ -163,22 +138,22 @@
             bindings = <
 &trans &none      &kp PG_DN  &kp UP     &kp PG_UP  &none      &trans &trans &none           &msc SCRL_DOWN  &mmv MOVE_UP    &msc SCRL_UP    &none &trans
 &trans &none      &kp LEFT   &kp DOWN   &kp RIGHT  &none      &trans &trans &none           &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT &none &trans
-&trans &none      &mkp MCLK  &mkp RCLK  &mkp LCLK  &none                    &rgb_ug RGB_TOG &mkp LCLK       &mkp RCLK       &mkp MCLK       &none &trans
+&trans &none      &mkp MCLK  &mkp RCLK  &mkp LCLK  &none                    &none           &mkp LCLK       &mkp RCLK       &mkp MCLK       &none &trans
                                         &kp LCTRL  &kp LSHFT  &trans                        &none           &none           &none
             >;
         };
 
         leader_layer {
             display-name = "LEADER";
-            // X+C+V combo fires &sl LDR, then the next key picks a macro.
+            // X+C+V combo fires &sl LDR, then the next key picks a binding.
+            //   Q -> select BT profile 1, W -> select BT profile 2
             //   O -> "H@banera01\n", P -> "h@banera1\n"
-            //   B -> install-new-firmware.bash + bootloader
-            //   M -> "make keebart/3w6_rgb:il\n"
+            //   B -> enter bootloader
             bindings = <
-&trans &none &none &none &none         &none   &trans &trans &none &none &none &m_banera01 &m_banera1 &trans
-&trans &none &none &none &none         &none   &trans &trans &none &none &none &none       &none      &trans
-&trans &none &none &none &none         &m_install_fw            &none &m_make_il &none      &none      &none      &trans
-                              &none &none &none                          &none &none &none
+&trans &bt BT_SEL 0 &bt BT_SEL 1 &none &none &none        &trans &trans &none &none &none &m_banera01 &m_banera1 &trans
+&trans &none        &none        &none &none &none        &trans &trans &none &none &none &none       &none      &trans
+&trans &none        &none        &none &none &bootloader                &none &none &none &none       &none      &trans
+                                       &none &none &none                &none &none &none
             >;
         };
     };
