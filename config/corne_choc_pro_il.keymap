@@ -17,6 +17,7 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/pointing.h>
 
@@ -59,6 +60,17 @@
             hold-trigger-key-positions = <0 1 2 3 4 5 6 7 14 15 16 17 18 19 20 21 28 29 30 31 32 33 40 41 42>;
             hold-trigger-on-release;
         };
+
+        // "Hold for 1 second to clear the active BT profile."
+        // Tap does nothing; only a deliberate long-hold fires &bt BT_CLR.
+        // Used on the LEADER layer at Z (position 29).
+        bt_clr_hold: bt_clr_hold {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <0>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <1000>;
+            bindings = <&m_bt_clr>, <&none>;
+        };
     };
 
     macros {
@@ -69,6 +81,16 @@
             wait-ms = <10>;
             tap-ms = <10>;
             bindings = <&macro_tap &kp H &kp AT &kp B &kp A &kp N &kp E &kp R &kp A &kp N1 &kp ENTER>;
+        };
+
+        // Zero-cell wrapper around &bt BT_CLR so it can be used as
+        // a hold-tap inner binding (see bt_clr_hold).
+        m_bt_clr: m_bt_clr {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <10>;
+            tap-ms = <10>;
+            bindings = <&bt BT_CLR>;
         };
 
         // Leader -> O: types "H@banera01\n"
@@ -147,12 +169,14 @@
             display-name = "LEADER";
             // X+C+V combo fires &sl LDR, then the next key picks a binding.
             //   Q -> select BT profile 1, W -> select BT profile 2
+            //   E -> toggle HID output (USB <-> BLE)
+            //   Z -> HOLD 1s to clear active BT profile (&bt BT_CLR)
             //   O -> "H@banera01\n", P -> "h@banera1\n"
             //   B -> bootloader (left half), N -> bootloader (right half)
             bindings = <
-&trans &bt BT_SEL 0 &bt BT_SEL 1 &none &none &none        &trans &trans &none &none &none &m_banera01 &m_banera1 &trans
+&trans &bt BT_SEL 0 &bt BT_SEL 1 &out OUT_TOG &none &none        &trans &trans &none &none &none &m_banera01 &m_banera1 &trans
 &trans &none        &none        &none &none &none        &trans &trans &none &none &none &none       &none      &trans
-&trans &none        &none        &none &none &bootloader                &bootloader &none &none &none &none      &trans
+&trans &bt_clr_hold &none        &none &none &bootloader                &bootloader &none &none &none &none      &trans
                                        &none &none &none                &none &none &none
             >;
         };
