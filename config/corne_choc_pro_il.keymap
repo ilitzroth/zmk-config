@@ -64,9 +64,14 @@
         // "Hold for 1 second to clear the active BT profile."
         // Tap does nothing; only a deliberate long-hold fires &bt BT_CLR.
         // Used on the LEADER layer at Z (position 29).
+        //
+        // #binding-cells is fixed at 2 by the hold-tap schema; the two
+        // cells are forwarded as params to the hold/tap inner bindings.
+        // Our inners are 0-cell (a macro and &none), so the forwarded
+        // params are inert. We always invoke this as `&bt_clr_hold 0 0`.
         bt_clr_hold: bt_clr_hold {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <0>;
+            #binding-cells = <2>;
             flavor = "hold-preferred";
             tapping-term-ms = <1000>;
             bindings = <&m_bt_clr>, <&none>;
@@ -176,7 +181,7 @@
             bindings = <
 &trans &bt BT_SEL 0 &bt BT_SEL 1 &out OUT_TOG &none &none        &trans &trans &none &none &none &m_banera01 &m_banera1 &trans
 &trans &none        &none        &none &none &none        &trans &trans &none &none &none &none       &none      &trans
-&trans &bt_clr_hold &none        &none &none &bootloader                &bootloader &none &none &none &none      &trans
+&trans &bt_clr_hold 0 0 &none &none &none &bootloader                &bootloader &none &none &none &none      &trans
                                        &none &none &none                &none &none &none
             >;
         };
