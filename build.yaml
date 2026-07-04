@@ -34,6 +34,15 @@ include:
   - board: corne_choc_pro_il_right
     shield: settings_reset
 
+  # --- piantor_pro_bt_il (il keymap, no display) ---
+  - board: piantor_pro_bt_il_left
+  - board: piantor_pro_bt_il_right
+
+  - board: piantor_pro_bt_il_left
+    shield: settings_reset
+  - board: piantor_pro_bt_il_right
+    shield: settings_reset
+
   # --- piantor_pro_bt ---
   # - board: piantor_pro_bt_left
   #   snippet: studio-rpc-usb-uart
