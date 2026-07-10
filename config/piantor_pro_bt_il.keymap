@@ -21,6 +21,11 @@
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/pointing.h>
 
+// Vendored behavior (&bapp): types the battery percentage as keycodes.
+// See src/behavior_battery_percentage_printer.c + dts/. The half it reports
+// is the half the &bapp key physically lives on (central=left, peripheral=right).
+#include <behaviors/battery_percentage_printer.dtsi>
+
 #define DEF 0
 #define NUM 1
 #define NAV 2
@@ -178,9 +183,11 @@
             //   Z -> HOLD 1s to clear active BT profile (&bt BT_CLR)
             //   O -> "H@banera01\n", P -> "h@banera1\n"
             //   B -> bootloader (left half), N -> bootloader (right half)
+            //   F -> type LEFT battery %  (F is on the left/central half)
+            //   J -> type RIGHT battery % (J is on the right/peripheral half)
             bindings = <
-&bt BT_SEL 0    &bt BT_SEL 1 &out OUT_TOG &none &none      &none       &none &none &m_banera01 &m_banera1
-&none           &none        &none        &none &none      &none       &none &none &none       &none
+&bt BT_SEL 0    &bt BT_SEL 1 &out OUT_TOG &none  &none      &none       &none  &none &m_banera01 &m_banera1
+&none           &none        &none        &bapp  &none      &none       &bapp  &none &none       &none
 &bt_clr_hold 0 0 &none       &none        &none &bootloader &bootloader &none &none &none       &none
                              &none &none &none                &none &none &none
             >;
